@@ -1,3 +1,5 @@
 bot.log
 settings.py
 .vscode
+env
+__pycache__
