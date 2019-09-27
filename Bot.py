@@ -39,12 +39,24 @@ def talk_to_me(bot, update):
     update.message.reply_text(user_text)
 
 
+def word_counter(bot, update):
+    user_text = update.message.text.split()
+    if not user_text[1:]:
+        update.message.reply_text('Вы ничего не ввели')
+    else:
+        result = len(user_text[1:])
+        text_to_user = f'Длина вашего предложения: {result} слов(а)'
+        update.message.reply_text(text_to_user)
+        logging.info(result)
+
+
 def main():
     mybot = Updater(settings.API_KEY, request_kwargs=settings.PROXY)
 
     logging.info("Бот запускается")
 
     dp = mybot.dispatcher
+    dp.add_handler(CommandHandler("wordcount", word_counter))
     dp.add_handler(CommandHandler("start", greet_user))
     dp.add_handler(MessageHandler(Filters.text, talk_to_me))
     dp.add_handler(CommandHandler("planet", planet_place))
